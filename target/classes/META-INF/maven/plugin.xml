@@ -1,0 +1,1085 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin>
+  <name>JMeter Maven Plugin</name>
+  <description>A plugin to allow you to run JMeter tests with Maven.</description>
+  <groupId>com.lazerycode.jmeter</groupId>
+  <artifactId>jmeter-maven-plugin</artifactId>
+  <version>1.8.0-R08102013</version>
+  <goalPrefix>jmeter</goalPrefix>
+  <isolatedRealm>false</isolatedRealm>
+  <inheritedByDefault>true</inheritedByDefault>
+  <mojos>
+    <mojo>
+      <goal>gui</goal>
+      <description>JMeter Maven plugin.</description>
+      <requiresDirectInvocation>false</requiresDirectInvocation>
+      <requiresProject>true</requiresProject>
+      <requiresReports>false</requiresReports>
+      <aggregator>false</aggregator>
+      <requiresOnline>false</requiresOnline>
+      <inheritedByDefault>true</inheritedByDefault>
+      <implementation>com.lazerycode.jmeter.JMeterGUIMojo</implementation>
+      <language>java</language>
+      <instantiationStrategy>per-lookup</instantiationStrategy>
+      <executionStrategy>once-per-session</executionStrategy>
+      <threadSafe>false</threadSafe>
+      <parameters>
+        <parameter>
+          <name>appendResultsTimestamp</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Append the results timestamp to the filename
+(It will be prepended by default if testResultsTimestamp is set to true)</description>
+        </parameter>
+        <parameter>
+          <name>customPropertiesFile</name>
+          <type>java.io.File</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Absolute path to JMeter custom (test dependent) properties file.</description>
+        </parameter>
+        <parameter>
+          <name>ignoreResultFailures</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Sets whether FailureScanner should ignore failures in JMeter result file.
+&lt;p/&gt;
+Failures are for example failed requests</description>
+        </parameter>
+        <parameter>
+          <name>mavenProject</name>
+          <type>org.apache.maven.project.MavenProject</type>
+          <required>true</required>
+          <editable>false</editable>
+          <description></description>
+        </parameter>
+        <parameter>
+          <name>overrideRootLogLevel</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Set a root log level to override all log levels used by JMeter
+Valid log levels are: FATAL_ERROR, ERROR, WARN, INFO, DEBUG (They are not case sensitive);
+If you try to set an invalid log level it will be ignored</description>
+        </parameter>
+        <parameter>
+          <name>pluginArtifacts</name>
+          <type>java.util.List</type>
+          <required>true</required>
+          <editable>false</editable>
+          <description>Get a list of artifacts used by this plugin</description>
+        </parameter>
+        <parameter>
+          <name>propertiesJMeter</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Absolute path to JMeter custom (test dependent) properties file.
+.</description>
+        </parameter>
+        <parameter>
+          <name>propertiesReplacedByCustomFiles</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Replace the default JMeter properties with any custom properties files supplied.
+(If set to false any custom properties files will be merged with the default JMeter properties files, custom properties will overwrite default ones)</description>
+        </parameter>
+        <parameter>
+          <name>propertiesSaveService</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>JMeter Properties that are merged with precedence into default JMeter file in saveservice.properties</description>
+        </parameter>
+        <parameter>
+          <name>propertiesSystem</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>(Java) System properties set for the test run.
+Properties are merged with precedence into default JMeter file system.properties</description>
+        </parameter>
+        <parameter>
+          <name>propertiesUpgrade</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>JMeter Properties that are merged with precedence into default JMeter file in upgrade.properties</description>
+        </parameter>
+        <parameter>
+          <name>propertiesUser</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>JMeter Properties that are merged with precedence into default JMeter file in user.properties
+user.properties takes precedence over jmeter.properties</description>
+        </parameter>
+        <parameter>
+          <name>proxyConfig</name>
+          <type>com.lazerycode.jmeter.configuration.ProxyConfiguration</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Value class that wraps all proxy configurations.</description>
+        </parameter>
+        <parameter>
+          <name>remoteConfig</name>
+          <type>com.lazerycode.jmeter.configuration.RemoteConfiguration</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Value class that wraps all remote configurations.</description>
+        </parameter>
+        <parameter>
+          <name>resultsFileFormat</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Set the format of the results generated by JMeter
+Valid values are: xml, csv (XML set by default).</description>
+        </parameter>
+        <parameter>
+          <name>resultsFileNameDateFormat</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Set the format of the timestamp that is appended to the results filename.
+(This assumes that testResultsTimestamp is set to &apos;true&apos;)
+For formatting see http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html</description>
+        </parameter>
+        <parameter>
+          <name>skipTests</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Skip the JMeter tests</description>
+        </parameter>
+        <parameter>
+          <name>suppressJMeterOutput</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Suppress JMeter output</description>
+        </parameter>
+        <parameter>
+          <name>testFilesDirectory</name>
+          <type>java.io.File</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Path under which JMX files are stored.</description>
+        </parameter>
+        <parameter>
+          <name>testFilesExcluded</name>
+          <type>java.util.List</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Sets the list of exclude patterns to use in directory scan for Test files.
+Relative to testFilesDirectory.</description>
+        </parameter>
+        <parameter>
+          <name>testFilesIncluded</name>
+          <type>java.util.List</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Sets the list of include patterns to use in directory scan for JMX files.
+Relative to testFilesDirectory.</description>
+        </parameter>
+        <parameter>
+          <name>testResultsTimestamp</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Timestamp the test results.</description>
+        </parameter>
+        <parameter>
+          <name>workDir</name>
+          <type>java.io.File</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>JMeter outputs.</description>
+        </parameter>
+      </parameters>
+      <configuration>
+        <appendResultsTimestamp implementation="boolean" default-value="false"/>
+        <ignoreResultFailures implementation="boolean" default-value="false">${jmeter.ignore.failure}</ignoreResultFailures>
+        <mavenProject implementation="org.apache.maven.project.MavenProject">${project}</mavenProject>
+        <pluginArtifacts implementation="java.util.List" default-value="${plugin.artifacts}"/>
+        <propertiesJMeter implementation="java.util.Map" default-value="${propertiesJMeter}"/>
+        <propertiesReplacedByCustomFiles implementation="boolean" default-value="true"/>
+        <proxyConfig implementation="com.lazerycode.jmeter.configuration.ProxyConfiguration" default-value="${proxyConfig}"/>
+        <remoteConfig implementation="com.lazerycode.jmeter.configuration.RemoteConfiguration" default-value="${remoteConfig}"/>
+        <resultsFileFormat implementation="java.lang.String" default-value="xml"/>
+        <skipTests implementation="boolean" default-value="false"/>
+        <suppressJMeterOutput implementation="boolean" default-value="true"/>
+        <testFilesDirectory implementation="java.io.File" default-value="${basedir}/src/test/jmeter">${jmeter.testfiles.basedir}</testFilesDirectory>
+        <testResultsTimestamp implementation="boolean" default-value="true"/>
+        <workDir implementation="java.io.File">${project.build.directory}/jmeter</workDir>
+      </configuration>
+    </mojo>
+    <mojo>
+      <goal>jmeter</goal>
+      <description>JMeter Maven plugin.</description>
+      <requiresDirectInvocation>false</requiresDirectInvocation>
+      <requiresProject>true</requiresProject>
+      <requiresReports>false</requiresReports>
+      <aggregator>false</aggregator>
+      <requiresOnline>false</requiresOnline>
+      <inheritedByDefault>true</inheritedByDefault>
+      <implementation>com.lazerycode.jmeter.JMeterMojo</implementation>
+      <language>java</language>
+      <instantiationStrategy>per-lookup</instantiationStrategy>
+      <executionStrategy>once-per-session</executionStrategy>
+      <threadSafe>false</threadSafe>
+      <parameters>
+        <parameter>
+          <name>appendResultsTimestamp</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Append the results timestamp to the filename
+(It will be prepended by default if testResultsTimestamp is set to true)</description>
+        </parameter>
+        <parameter>
+          <name>customPropertiesFile</name>
+          <type>java.io.File</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Absolute path to JMeter custom (test dependent) properties file.</description>
+        </parameter>
+        <parameter>
+          <name>ignoreResultFailures</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Sets whether FailureScanner should ignore failures in JMeter result file.
+&lt;p/&gt;
+Failures are for example failed requests</description>
+        </parameter>
+        <parameter>
+          <name>mavenProject</name>
+          <type>org.apache.maven.project.MavenProject</type>
+          <required>true</required>
+          <editable>false</editable>
+          <description></description>
+        </parameter>
+        <parameter>
+          <name>overrideRootLogLevel</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Set a root log level to override all log levels used by JMeter
+Valid log levels are: FATAL_ERROR, ERROR, WARN, INFO, DEBUG (They are not case sensitive);
+If you try to set an invalid log level it will be ignored</description>
+        </parameter>
+        <parameter>
+          <name>pluginArtifacts</name>
+          <type>java.util.List</type>
+          <required>true</required>
+          <editable>false</editable>
+          <description>Get a list of artifacts used by this plugin</description>
+        </parameter>
+        <parameter>
+          <name>propertiesJMeter</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Absolute path to JMeter custom (test dependent) properties file.
+.</description>
+        </parameter>
+        <parameter>
+          <name>propertiesReplacedByCustomFiles</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Replace the default JMeter properties with any custom properties files supplied.
+(If set to false any custom properties files will be merged with the default JMeter properties files, custom properties will overwrite default ones)</description>
+        </parameter>
+        <parameter>
+          <name>propertiesSaveService</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>JMeter Properties that are merged with precedence into default JMeter file in saveservice.properties</description>
+        </parameter>
+        <parameter>
+          <name>propertiesSystem</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>(Java) System properties set for the test run.
+Properties are merged with precedence into default JMeter file system.properties</description>
+        </parameter>
+        <parameter>
+          <name>propertiesUpgrade</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>JMeter Properties that are merged with precedence into default JMeter file in upgrade.properties</description>
+        </parameter>
+        <parameter>
+          <name>propertiesUser</name>
+          <type>java.util.Map</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>JMeter Properties that are merged with precedence into default JMeter file in user.properties
+user.properties takes precedence over jmeter.properties</description>
+        </parameter>
+        <parameter>
+          <name>proxyConfig</name>
+          <type>com.lazerycode.jmeter.configuration.ProxyConfiguration</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Value class that wraps all proxy configurations.</description>
+        </parameter>
+        <parameter>
+          <name>remoteConfig</name>
+          <type>com.lazerycode.jmeter.configuration.RemoteConfiguration</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Value class that wraps all remote configurations.</description>
+        </parameter>
+        <parameter>
+          <name>resultsFileFormat</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Set the format of the results generated by JMeter
+Valid values are: xml, csv (XML set by default).</description>
+        </parameter>
+        <parameter>
+          <name>resultsFileNameDateFormat</name>
+          <type>java.lang.String</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Set the format of the timestamp that is appended to the results filename.
+(This assumes that testResultsTimestamp is set to &apos;true&apos;)
+For formatting see http://joda-time.sourceforge.net/apidocs/org/joda/time/format/DateTimeFormat.html</description>
+        </parameter>
+        <parameter>
+          <name>skipTests</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Skip the JMeter tests</description>
+        </parameter>
+        <parameter>
+          <name>suppressJMeterOutput</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Suppress JMeter output</description>
+        </parameter>
+        <parameter>
+          <name>testFilesDirectory</name>
+          <type>java.io.File</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Path under which JMX files are stored.</description>
+        </parameter>
+        <parameter>
+          <name>testFilesExcluded</name>
+          <type>java.util.List</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Sets the list of exclude patterns to use in directory scan for Test files.
+Relative to testFilesDirectory.</description>
+        </parameter>
+        <parameter>
+          <name>testFilesIncluded</name>
+          <type>java.util.List</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Sets the list of include patterns to use in directory scan for JMX files.
+Relative to testFilesDirectory.</description>
+        </parameter>
+        <parameter>
+          <name>testResultsTimestamp</name>
+          <type>boolean</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>Timestamp the test results.</description>
+        </parameter>
+        <parameter>
+          <name>workDir</name>
+          <type>java.io.File</type>
+          <required>false</required>
+          <editable>true</editable>
+          <description>JMeter outputs.</description>
+        </parameter>
+      </parameters>
+      <configuration>
+        <appendResultsTimestamp implementation="boolean" default-value="false"/>
+        <ignoreResultFailures implementation="boolean" default-value="false">${jmeter.ignore.failure}</ignoreResultFailures>
+        <mavenProject implementation="org.apache.maven.project.MavenProject">${project}</mavenProject>
+        <pluginArtifacts implementation="java.util.List" default-value="${plugin.artifacts}"/>
+        <propertiesJMeter implementation="java.util.Map" default-value="${propertiesJMeter}"/>
+        <propertiesReplacedByCustomFiles implementation="boolean" default-value="true"/>
+        <proxyConfig implementation="com.lazerycode.jmeter.configuration.ProxyConfiguration" default-value="${proxyConfig}"/>
+        <remoteConfig implementation="com.lazerycode.jmeter.configuration.RemoteConfiguration" default-value="${remoteConfig}"/>
+        <resultsFileFormat implementation="java.lang.String" default-value="xml"/>
+        <skipTests implementation="boolean" default-value="false"/>
+        <suppressJMeterOutput implementation="boolean" default-value="true"/>
+        <testFilesDirectory implementation="java.io.File" default-value="${basedir}/src/test/jmeter">${jmeter.testfiles.basedir}</testFilesDirectory>
+        <testResultsTimestamp implementation="boolean" default-value="true"/>
+        <workDir implementation="java.io.File">${project.build.directory}/jmeter</workDir>
+      </configuration>
+    </mojo>
+  </mojos>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+      <type>jar</type>
+      <version>1.8.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant-launcher</artifactId>
+      <type>jar</type>
+      <version>1.8.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <type>jar</type>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <type>jar</type>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-settings</artifactId>
+      <type>jar</type>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-profile</artifactId>
+      <type>jar</type>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-model</artifactId>
+      <type>jar</type>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-artifact-manager</artifactId>
+      <type>jar</type>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-repository-metadata</artifactId>
+      <type>jar</type>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven.wagon</groupId>
+      <artifactId>wagon-provider-api</artifactId>
+      <type>jar</type>
+      <version>1.0-beta-6</version>
+    </dependency>
+    <dependency>
+      <groupId>backport-util-concurrent</groupId>
+      <artifactId>backport-util-concurrent</artifactId>
+      <type>jar</type>
+      <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-registry</artifactId>
+      <type>jar</type>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-interpolation</artifactId>
+      <type>jar</type>
+      <version>1.11</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-utils</artifactId>
+      <type>jar</type>
+      <version>1.5.15</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-artifact</artifactId>
+      <type>jar</type>
+      <version>2.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.codehaus.plexus</groupId>
+      <artifactId>plexus-container-default</artifactId>
+      <type>jar</type>
+      <version>1.0-alpha-9-stable-1</version>
+    </dependency>
+    <dependency>
+      <groupId>classworlds</groupId>
+      <artifactId>classworlds</artifactId>
+      <type>jar</type>
+      <version>1.1-alpha-2</version>
+    </dependency>
+    <dependency>
+      <groupId>joda-time</groupId>
+      <artifactId>joda-time</artifactId>
+      <type>jar</type>
+      <version>2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>bsf</groupId>
+      <artifactId>bsf</artifactId>
+      <type>jar</type>
+      <version>2.4.0</version>
+    </dependency>
+    <dependency>
+      <groupId>avalon-framework</groupId>
+      <artifactId>avalon-framework</artifactId>
+      <type>jar</type>
+      <version>4.1.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.beanshell</groupId>
+      <artifactId>bsh</artifactId>
+      <type>jar</type>
+      <version>2.0b5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcmail-jdk15</artifactId>
+      <type>jar</type>
+      <version>1.45</version>
+    </dependency>
+    <dependency>
+      <groupId>org.bouncycastle</groupId>
+      <artifactId>bcprov-jdk15</artifactId>
+      <type>jar</type>
+      <version>1.45</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <type>jar</type>
+      <version>1.6</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <type>jar</type>
+      <version>3.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <type>jar</type>
+      <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <type>jar</type>
+      <version>2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-jexl</groupId>
+      <artifactId>commons-jexl</artifactId>
+      <type>jar</type>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-jexl</artifactId>
+      <type>jar</type>
+      <version>2.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <type>jar</type>
+      <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <type>jar</type>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>commons-net</groupId>
+      <artifactId>commons-net</artifactId>
+      <type>jar</type>
+      <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>excalibur-datasource</groupId>
+      <artifactId>excalibur-datasource</artifactId>
+      <type>jar</type>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>excalibur-instrument</groupId>
+      <artifactId>excalibur-instrument</artifactId>
+      <type>jar</type>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>excalibur-logger</groupId>
+      <artifactId>excalibur-logger</artifactId>
+      <type>jar</type>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>excalibur-pool</groupId>
+      <artifactId>excalibur-pool</artifactId>
+      <type>jar</type>
+      <version>1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.htmlparser</groupId>
+      <artifactId>htmllexer</artifactId>
+      <type>jar</type>
+      <version>2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.htmlparser</groupId>
+      <artifactId>htmlparser</artifactId>
+      <type>jar</type>
+      <version>2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpclient</artifactId>
+      <type>jar</type>
+      <version>4.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpmime</artifactId>
+      <type>jar</type>
+      <version>4.2.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.httpcomponents</groupId>
+      <artifactId>httpcore</artifactId>
+      <type>jar</type>
+      <version>4.2.2</version>
+    </dependency>
+    <dependency>
+      <groupId>oro</groupId>
+      <artifactId>oro</artifactId>
+      <type>jar</type>
+      <version>2.0.8</version>
+    </dependency>
+    <dependency>
+      <groupId>jcharts</groupId>
+      <artifactId>jcharts</artifactId>
+      <type>jar</type>
+      <version>0.7.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <type>jar</type>
+      <version>1.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mozilla</groupId>
+      <artifactId>rhino</artifactId>
+      <type>jar</type>
+      <version>1.7R4</version>
+    </dependency>
+    <dependency>
+      <groupId>logkit</groupId>
+      <artifactId>logkit</artifactId>
+      <type>jar</type>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>soap</groupId>
+      <artifactId>soap</artifactId>
+      <type>jar</type>
+      <version>2.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>net.sf.jtidy</groupId>
+      <artifactId>jtidy</artifactId>
+      <type>jar</type>
+      <version>r938</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-core</artifactId>
+      <type>jar</type>
+      <version>1.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-parsers</artifactId>
+      <type>jar</type>
+      <version>1.3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gagravarr</groupId>
+      <artifactId>vorbis-java-tika</artifactId>
+      <type>jar</type>
+      <version>0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>edu.ucar</groupId>
+      <artifactId>netcdf</artifactId>
+      <type>jar</type>
+      <version>4.2-min</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-mime4j-core</artifactId>
+      <type>jar</type>
+      <version>0.7.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.james</groupId>
+      <artifactId>apache-mime4j-dom</artifactId>
+      <type>jar</type>
+      <version>0.7.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-compress</artifactId>
+      <type>jar</type>
+      <version>1.4.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.tukaani</groupId>
+      <artifactId>xz</artifactId>
+      <type>jar</type>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <type>jar</type>
+      <version>1.7.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>fontbox</artifactId>
+      <type>jar</type>
+      <version>1.7.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.pdfbox</groupId>
+      <artifactId>jempbox</artifactId>
+      <type>jar</type>
+      <version>1.7.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <type>jar</type>
+      <version>3.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-scratchpad</artifactId>
+      <type>jar</type>
+      <version>3.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <type>jar</type>
+      <version>3.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml-schemas</artifactId>
+      <type>jar</type>
+      <version>3.8</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlbeans</groupId>
+      <artifactId>xmlbeans</artifactId>
+      <type>jar</type>
+      <version>2.3.0</version>
+    </dependency>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <type>jar</type>
+      <version>1.6.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-stax-api_1.0_spec</artifactId>
+      <type>jar</type>
+      <version>1.0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.ccil.cowan.tagsoup</groupId>
+      <artifactId>tagsoup</artifactId>
+      <type>jar</type>
+      <version>1.2.1</version>
+    </dependency>
+    <dependency>
+      <groupId>asm</groupId>
+      <artifactId>asm</artifactId>
+      <type>jar</type>
+      <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.mp4parser</groupId>
+      <artifactId>isoparser</artifactId>
+      <type>jar</type>
+      <version>1.0-RC-1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjrt</artifactId>
+      <type>jar</type>
+      <version>1.6.11</version>
+    </dependency>
+    <dependency>
+      <groupId>com.drewnoakes</groupId>
+      <artifactId>metadata-extractor</artifactId>
+      <type>jar</type>
+      <version>2.6.2</version>
+    </dependency>
+    <dependency>
+      <groupId>com.adobe.xmp</groupId>
+      <artifactId>xmpcore</artifactId>
+      <type>jar</type>
+      <version>5.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>de.l3s.boilerpipe</groupId>
+      <artifactId>boilerpipe</artifactId>
+      <type>jar</type>
+      <version>1.1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>rome</groupId>
+      <artifactId>rome</artifactId>
+      <type>jar</type>
+      <version>0.9</version>
+    </dependency>
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <type>jar</type>
+      <version>1.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.gagravarr</groupId>
+      <artifactId>vorbis-java-core</artifactId>
+      <type>jar</type>
+      <version>0.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.juniversalchardet</groupId>
+      <artifactId>juniversalchardet</artifactId>
+      <type>jar</type>
+      <version>1.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.thoughtworks.xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <type>jar</type>
+      <version>1.4.2</version>
+    </dependency>
+    <dependency>
+      <groupId>xmlpull</groupId>
+      <artifactId>xmlpull</artifactId>
+      <type>jar</type>
+      <version>1.1.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>xpp3</groupId>
+      <artifactId>xpp3_min</artifactId>
+      <type>jar</type>
+      <version>1.1.4c</version>
+    </dependency>
+    <dependency>
+      <groupId>xalan</groupId>
+      <artifactId>xalan</artifactId>
+      <type>jar</type>
+      <version>2.7.1</version>
+    </dependency>
+    <dependency>
+      <groupId>xalan</groupId>
+      <artifactId>serializer</artifactId>
+      <type>jar</type>
+      <version>2.7.1</version>
+    </dependency>
+    <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+      <type>jar</type>
+      <version>2.9.1</version>
+    </dependency>
+    <dependency>
+      <groupId>xml-apis</groupId>
+      <artifactId>xml-apis</artifactId>
+      <type>jar</type>
+      <version>1.3.04</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.xmlgraphics</groupId>
+      <artifactId>xmlgraphics-commons</artifactId>
+      <type>jar</type>
+      <version>1.3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>activation</artifactId>
+      <type>jar</type>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <type>jar</type>
+      <version>1.4.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-jms_1.1_spec</artifactId>
+      <type>jar</type>
+      <version>1.1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jsoup</groupId>
+      <artifactId>jsoup</artifactId>
+      <type>jar</type>
+      <version>1.7.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jodd</groupId>
+      <artifactId>jodd-core</artifactId>
+      <type>jar</type>
+      <version>3.4.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jodd</groupId>
+      <artifactId>jodd-lagarto</artifactId>
+      <type>jar</type>
+      <version>3.4.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <type>jar</type>
+      <version>1.7.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_core</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>jorphan</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_components</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_functions</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_http</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_java</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_report</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_tcp</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_ftp</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_jdbc</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_jms</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_ldap</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_mail</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_junit</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_monitors</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jmeter</groupId>
+      <artifactId>ApacheJMeter_config</artifactId>
+      <type>jar</type>
+      <version>2.9</version>
+    </dependency>
+  </dependencies>
+</plugin>
